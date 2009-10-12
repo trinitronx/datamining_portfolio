@@ -1,0 +1,69 @@
+Project 1.5
+¯¯¯¯¯¯¯¯¯¯¯
+Goal: Discover at least 2 interesting clusters in the medical dataset.
+
+General Strategy: 
+First get WEKA able to open the dataset, then convert the parameters listed in
+"DataDescription.xls" from numeric coded data to the nominal datatype in weka using
+the WEKA class "weka.filters.unsupervised.attribute.NumericToNominal".
+
+First, to get WEKA up and running, I fought with Windows 7 forever trying to get the
+JVM that runs WEKA to use a heap size of 1024MB.  Editing the inital "RunWeka.bat"
+script was unsuccessful.  I then tried installing WEKA on a linux machine at home, 
+however because this box was running a bunch of MythTV transcode jobs on HD video, 
+it too was not able to allocate enough memory using the flags "-Xms1024M -Xmx1024M".
+However, my memory usage in htop showed enough RAM available.  This was a mess.
+I then tried to ssh to alamode.mines.edu, only to find that either my password was 
+changed, or my account was deleted.
+
+I went back to my Windows 7 laptop and I found that "RunWeka.bat" was actually 
+running the "RunWeka.class" java wrapper class.  That class didn't actually 
+pass the correct memory parameters to the weka.jar file.
+After a constant battle with Windows 7 (with it's constant running of 
+unneccessary RAM-eating programs in the background) and trying to run the 
+weka.jar file using combinations of the JVM command line options:
+-Xmx__heapsize__m and -Xms__heapsize__m, I finally found that I could specify 512m as
+the maximum heapsize and get weka to open the "train.a.csv" file with 99,000 records!!
+
+Next, with the hideous RAM-beast slain, I moved on to doing the preprocessing task.
+I found that some fields were listed in the "DataDescription.xls" file as having 
+a cooresponding text description with them, and so it would make more sense for these 
+to be converted from numeric data types to the nominal one within WEKA.
+
+WEKA's NumericToNominal class uses an input of attributeIndices, which can be a comma 
+separated list of the indices for each field to convert to nominal.  Since there are 
+79 fields in the csv file, it would have been rather nasty to find the index of each 
+one by hand in that first line.  So first I ran the following one liner to make it
+easier:
+
+head -n1 train-a.csv | sed 's/,/\n/g' > headings.txt
+
+This put all the field label headings on a separate line in a new text file that I 
+could open in notepad++ and easily read off the index of each field.  Next, I went 
+through the list and found the ones that would be optimal for converting to nominal.
+Using notepad++'s "TextFX Tools -> Insert Line Numbers" I created a list of these
+fields in nominal_fields.txt, trying to group them by contiguous index ranges.
+I then went through WEKA's parameter list and removed parameters from this file that 
+were already nominal.
+
+Then, I crafted the command line to give the NumericToNominal filter, and ran it by 
+right clicking on the Filter box, choosing "Enter configuration", and pasting my 
+command line string into it:
+
+weka.filters.unsupervised.attribute.NumericToNominal -R 7-9,11-13,15-16,31-45,48-49,53,56-71,77-78
+
+However, then WEKA again crashed with the dreaded "Not enough memory." error.
+the total memory used & available was: 508.1MB.  I had found that some unholy 
+goat-beast lives in this OS eating it's RAM!
+Again, I tried using 1024m as the max and min heapsize in my new RunWeka.bat file.
+This didn't work either, because Java could not allocate that much memory.
+I rebooted, closed all programs, took off the -Xms flag, and passed only 
+the -Xmx one.  FINALLY IT WORKED!!!!
+
+(Apparently passing both makes it try to allocate CONTIGUOUS memory... 
+No wonder it didn't work in linux initially.)
+
+Anyways, I finally got the filter working after this!!!
+it worked!  I immediately saved the dataset as an arff file to save the filter results.
+
+TO BE CONTINUED....
