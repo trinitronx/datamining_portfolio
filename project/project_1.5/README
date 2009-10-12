@@ -6,6 +6,8 @@ General Strategy:
 First get WEKA able to open the dataset, then convert the parameters listed in
 "DataDescription.xls" from numeric coded data to the nominal datatype in weka using
 the WEKA class "weka.filters.unsupervised.attribute.NumericToNominal".
+Finally, the last step would be to run a cluster analysis on a couple fields and 
+analyze the results.
 
 First, to get WEKA up and running, I fought with Windows 7 forever trying to get the
 JVM that runs WEKA to use a heap size of 1024MB.  Editing the inital "RunWeka.bat"
@@ -66,4 +68,3 @@ No wonder it didn't work in linux initially.)
 Anyways, I finally got the filter working after this!!!
 it worked!  I immediately saved the dataset as an arff file to save the filter results.
 
-TO BE CONTINUED....
