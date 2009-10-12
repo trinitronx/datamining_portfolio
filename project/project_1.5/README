@@ -68,3 +68,439 @@ No wonder it didn't work in linux initially.)
 Anyways, I finally got the filter working after this!!!
 it worked!  I immediately saved the dataset as an arff file to save the filter results.
 
+The next task was to run the cluster analysis on the file.  I chose to do a K-means 
+cluster analysis using the Euclidean Distance similarity metric.  The fields I 
+thought would be interesting were: 
+00000006 Age
+00000015 Principal-Dx-Code
+00000072 Complication-Minor
+00000073 Complication-Sever
+
+I ran my first cluster analysis using the line:
+
+weka.clusterers.SimpleKMeans -N 15 -A "weka.core.EuclideanDistance -R 6,15,72-73" -I 500 -S 10
+
+As we are looking for a patient disposition of 20, the first cluster results were not that interesting, as all clusters had either 1, 2, or 3 as the 
+Patient-Disposition code.  These cooresponded to "Home", "Other Acute Care Hospital" and "Skilled Nursing Facility" respectively.
+Another interesting thing found was that the centroid for all fields named 
+"Other-Dx-Code-N" with N > 3 were mostly 4019.  This diagnosis cooresponds with 
+"Hypertension Nos" according to the Excel file.
+
+Clusters 0,1,8, and 10 all have Principal-Dx-Code of 4280 ("Congestive Heart Failure").
+Clusters 0 and 1 both had a Principal-Dx-Code code of 42731 ("Atrial Fibrillation").
+Their mean ages were approximately 80 and 85 respectively.
+Another interesting cluster was 13, with a mean age of ~27, and Principal-Dx-Code of
+28262 ("Hb-S Disease With Crisis").
+
+The results are as follows:
+
+=== Run information ===
+
+Scheme:       weka.clusterers.SimpleKMeans -N 15 -A "weka.core.EuclideanDistance -R 6,15,72-73" -I 500 -S 10
+Relation:     train-a-weka.filters.unsupervised.attribute.NumericToNominal-R7-9,11-13,15-16,31-45,48-49,53,56-71,77-78
+Instances:    99999
+Attributes:   79
+              RecordID
+              PatientID
+              Record Count
+              Interval
+              Patient-Sex
+              Age
+              Patient-Race
+              Patient-Ethnicity
+              Patient-Disposition
+              Length of Stay
+              Admit-Type
+              Admit-Source
+              Hospital-ID
+              Region-ID
+              Principal-Dx-Code
+              Admit-Dx-Code
+              Other-Dx-Code-1
+              Other-Dx-Code-2
+              Other-Dx-Code-3
+              Other-Dx-Code-4
+              Other-Dx-Code-5
+              Other-Dx-Code-6
+              Other-Dx-Code-7
+              Other-Dx-Code-8
+              Other-Dx-Code-9
+              Other-Dx-Code-10
+              Other-Dx-Code-11
+              Other-Dx-Code-12
+              Other-Dx-Code-13
+              Other-Dx-Code-14
+              Principal-PR-Code
+              Other-PR-Code-1
+              Other-PR-Code-2
+              Other-PR-Code-3
+              Other-PR-Code-4
+              Other-PR-Code-5
+              Other-PR-Code-6
+              Other-PR-Code-7
+              Other-PR-Code-8
+              Other-PR-Code-9
+              Other-PR-Code-10
+              Other-PR-Code-11
+              Other-PR-Code-12
+              Other-PR-Code-13
+              Other-PR-Code-14
+              Cause-E-Code
+              Place-E-Code
+              Reimb DRG
+              Reimb MDC
+              AccomCharges
+              AncilCharges
+              TotalCharges
+              Serv-Class
+              Residence-Ind
+              Emergency-Dept-Ind
+              CMC1
+              CMC2
+              CMC3
+              CMC4
+              CMC5
+              CMC6
+              CMC7
+              CMC8
+              CMC9
+              CMC10
+              PL1
+              PL2
+              PL3
+              PL4
+              PL5
+              Pot Amb
+              Complication-Minor
+              Complication-Sever
+              Trauma-Minor
+              Trauma-Severe
+              Trauma-Severity
+              Nosocomial Inf
+              Severity
+              Cost Weight
+Test mode:    evaluate on training data
+
+=== Model and evaluation on training set ===
+
+
+kMeans
+======
+
+Number of iterations: 37
+Within cluster sum of squared errors: 69102.54219448987
+Missing values globally replaced with mean/mode
+
+Cluster centroids:
+                                     Cluster#
+Attribute               Full Data           0           1           2           3           4           5           6           7           8           9          10          11          12          13          14
+                          (99999)      (8180)      (8004)      (9366)      (5229)      (6892)      (5344)      (5849)      (3829)     (12892)      (9936)      (9164)      (2060)      (4165)      (1992)      (7097)
+=====================================================================================================================================================================================================================
+RecordID              134369.5448 133862.6094 134856.6198 135549.5558 135162.1861 135988.5051  135164.698 134624.7066 134318.2199 135491.4524 133724.9067 134195.4772 132410.0782 133709.1599 121523.7595 133560.8718
+PatientID               39095.379  38948.0599  39237.8839  39440.2336  39325.3526  39566.6061  39328.8204  39170.1672  39080.1248  39421.3387  38908.4334  39043.6993     38525.5  38900.9534  35355.4162  38858.7059
+Record Count               3.6849      3.0078      3.3828      3.3231      3.7629      5.3581      4.2376      3.4343      3.4829       2.977      3.5418      4.1746      3.0437       4.952      6.4232       3.028
+Interval                 135.3515    148.8623    133.7033    139.9746    126.8277    124.3516    121.9061    133.9636    141.7885    149.5791    130.4665    127.5914    142.9469    115.1892    100.5264    150.7106
+Patient-Sex                     F           F           F           F           F           M           F           F           F           F           M           M           F           M           M           F
+Age                       72.7984     85.8857     80.1396     78.3666     69.6519     55.0824     65.2827     76.4561     75.8425     85.9218     70.2564     60.4046     74.5505     51.3914     27.2922     83.1608
+Patient-Race                    1           1           1           1           1           1           1           1           1           1           1           1           1           1           2           1
+Patient-Ethnicity               2           2           2           2           2           2           2           2           2           2           2           2           2           2           2           2
+Patient-Disposition             1           3           3           1           1           1           1           1           3           1           1           1           1           1           1           3
+Length of Stay             7.8484      7.2339     11.7914      5.5583     13.5856      5.1972      7.9779      7.3731     19.9501      5.5572      5.4172      5.7891      6.4345      9.1023      7.5156      9.2377
+Admit-Type                      1           1           1           1           1           1           1           1           1           1           1           1           1           1           1           1
+Admit-Source                    7           7           7           7           7           7           7           7           7           7           7           7           7           7           7           7
+Hospital-ID                    73          58          58         167          73          73          73          73          58         167         167          34          73          73          34         167
+Region-ID                       C           C           C           C           C           M           C           C           C           C           C           M           C           C           E           C
+Principal-Dx-Code            4280        4280        4280       49121       51881       78659       49121        2761         389        4280       41401        4280       42731         486       28262         486
+Admit-Dx-Code                4280        4280        4280       49121       51881       78650       49121        5789         389        4280       41401        4280       42731         486       28262         486
+Other-Dx-Code-1            4280.0     42731.0     42731.0      4280.0      4280.0      4019.0      4280.0      4280.0      4280.0      4019.0      4280.0      4019.0      4280.0      4280.0      4280.0      4280.0
+Other-Dx-Code-2            4280.0     42731.0      4280.0      4280.0      4280.0      4280.0      4280.0      4280.0       486.0      4280.0      4280.0      4280.0      4280.0      4280.0      4280.0      4280.0
+Other-Dx-Code-3            4019.0      4019.0     42731.0      4019.0      4280.0      4019.0      4019.0      4019.0      4280.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-4            4019.0      4019.0      4280.0      4019.0      4280.0      4019.0      4019.0      4019.0      4280.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-5            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4280.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-6            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-7            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-8            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-9            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-10           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-11           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-12           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-13           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-14            V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581       V4581
+Principal-PR-Code            8872        8872        8872        8872        8872        8872        8872        8872        8872        8872        8872        8872        8872        8872        8872        8872
+Other-PR-Code-1              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-2              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-3              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-4              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-5              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-6              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-7              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-8              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-9              9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-10             9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-11             9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-12             9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-13             9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-14             9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904        9904
+Cause-E-Code                E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788       E8788
+Place-E-Code                E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490       E8490
+Reimb DRG                     127         127         127          88         475         143          88         296         416         127         132         127         138          89         395          89
+Reimb MDC                       5           5           5           5           4           5           4           5          18           5           5           5           5           4           5           4
+AccomCharges           18609.9772  15411.3717  27425.2758  11859.8196  35914.0239  11675.2282  17292.5278  15520.3167  58508.1673  12055.9723   14235.435  14207.6488  15343.9544  20984.0366   20564.831  19981.0711
+AncilCharges           15277.3074  11036.1629  19125.3493  10812.7517  28210.3254   9635.9293  13598.1542  12388.3261  42064.0488  10496.3041   17494.149  14368.9148  11289.6409  16318.3194  13583.2455  14636.7717
+TotalCharges           33887.2846  26447.5346   46550.625  22672.5714  64124.3493  21311.1575   30890.682  27908.6428 100572.2161  22552.2764   31729.584  28576.5636  26633.5953   37302.356  34148.0764  34617.8427
+Serv-Class                      1           1           2           1           2           1           1           1           2           1           2           1           1           2           1           1
+Residence-Ind                   H           H           H           H           H           H           H           H           H           H           H           H           H           H           H           H
+Emergency-Dept-Ind              E           E           E           E           E           E           E           E           E           E           E           E           E           E           E           E
+CMC1                         3930        3930        5004         401        5005         401         401        5005        5004        3930        3907        3930        3917        2401        4011        2401
+CMC2                         4144        5005        5005        4144         704        4144        3917        3917        5005        4144        3990         401        4144        5005           0        3930
+CMC3                            0        4144        5005           0        3930           0        4144        4144        5006           0           0           0           0        5005           0        4144
+CMC4                            0           0        5005           0           0           0           0           0         704           0           0           0           0           0           0           0
+CMC5                            0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+CMC6                            0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+CMC7                            0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+CMC8                            0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+CMC9                            0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+CMC10                           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+PL1                             5           5          20          17           5           5          17          17           5           5           5           5           5          17          20          17
+PL2                             5           5           5           5          17          18           5           5           5          18           9          18          18           5          99           5
+PL3                            99          18           5          99          99          99          18          18          99          99          99          99          99          99          99          18
+PL4                            99          99          99          99          99          99          99          99          99          99          99          99          99          99          99          99
+PL5                            99          99          99          99          99          99          99          99          99          99          99          99          99          99          99          99
+Pot Amb                         0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+Complication-Minor         0.5856      1.0012      2.2631      0.0346      0.3974      0.0438      1.1542      0.9771      1.3165           0      0.0791      0.1165      0.3427      1.1928      0.2023      0.6615
+Complication-Sever          0.253      0.0759      0.2771      0.0109        1.14      0.0351      0.0243      0.0062      1.9679      0.0739      0.0395      0.1191      0.1228      0.2067      0.1325      0.6545
+Trauma-Minor                0.014      0.0246      0.0197      0.0156      0.0086      0.0071      0.0105      0.0197      0.0086      0.0233       0.008      0.0064      0.0083      0.0072       0.007      0.0131
+Trauma-Severe              0.0379       0.076      0.0826      0.0389      0.0317      0.0123      0.0189      0.0503       0.053      0.0494      0.0164      0.0089      0.0097      0.0202      0.0126      0.0392
+Trauma-Severity            0.0812       0.156      0.1649      0.0836        0.07        0.03       0.047      0.1087      0.1079      0.1087      0.0383      0.0234      0.0262       0.043      0.0261      0.0827
+Nosocomial Inf                  0           0           0           0           0           0           0           0           1           0           0           0           0           0           0           0
+Severity                        3           3           5           3           6           1           3           3           7           3           1           3           1           5           1           6
+Cost Weight                 2.173      2.0663      2.8492      1.6897      3.2693      1.5759      2.1607      2.1066      4.2599      1.6601      2.2225      1.6824      1.5195      2.3879      1.7923      2.5481
+
+
+Clustered Instances
+
+ 0       8180 (  8%)
+ 1       8004 (  8%)
+ 2       9366 (  9%)
+ 3       5229 (  5%)
+ 4       6892 (  7%)
+ 5       5344 (  5%)
+ 6       5849 (  6%)
+ 7       3829 (  4%)
+ 8      12892 ( 13%)
+ 9       9936 ( 10%)
+10       9164 (  9%)
+11       2060 (  2%)
+12       4165 (  4%)
+13       1992 (  2%)
+14       7097 (  7%)
+
+--------------------------------------------------------------------------------
+
+Next I decided to run a cluster analysis using 6 clusters, feeding the EuclideanDistance
+module everything, just to see what interesting things happened.  I ran the SimpleKMeans 
+using the following line:
+
+weka.clusterers.SimpleKMeans -N 6 -A "weka.core.EuclideanDistance -R first-last" -I 500 -S 10
+
+Still, there were no clusters found with a Patient-Disposition of 20.  Again, the most common 
+Principal-Dx-Code was 4280 ("Congestive Heart Failure").  For some reason, although I had the 
+"store Clusters for visualization" checkbox checked, there was no option in the Visualizer's 
+dropdown list to color by Cluster.  By looking through some of the graphs however, I managed 
+to get some graphs of Principal-Dx-Code vs. Age, and found an interesting plot of Age vs.
+Length of Stay.  These can be found as .png images in the project_1.5 folder.
+
+The results were as follows:
+
+=== Run information ===
+
+Scheme:       weka.clusterers.SimpleKMeans -N 6 -A "weka.core.EuclideanDistance -R first-last" -I 500 -S 10
+Relation:     train-a-weka.filters.unsupervised.attribute.NumericToNominal-R7-9,11-13,15-16,31-45,48-49,53,56-71,77-78
+Instances:    99999
+Attributes:   79
+              RecordID
+              PatientID
+              Record Count
+              Interval
+              Patient-Sex
+              Age
+              Patient-Race
+              Patient-Ethnicity
+              Patient-Disposition
+              Length of Stay
+              Admit-Type
+              Admit-Source
+              Hospital-ID
+              Region-ID
+              Principal-Dx-Code
+              Admit-Dx-Code
+              Other-Dx-Code-1
+              Other-Dx-Code-2
+              Other-Dx-Code-3
+              Other-Dx-Code-4
+              Other-Dx-Code-5
+              Other-Dx-Code-6
+              Other-Dx-Code-7
+              Other-Dx-Code-8
+              Other-Dx-Code-9
+              Other-Dx-Code-10
+              Other-Dx-Code-11
+              Other-Dx-Code-12
+              Other-Dx-Code-13
+              Other-Dx-Code-14
+              Principal-PR-Code
+              Other-PR-Code-1
+              Other-PR-Code-2
+              Other-PR-Code-3
+              Other-PR-Code-4
+              Other-PR-Code-5
+              Other-PR-Code-6
+              Other-PR-Code-7
+              Other-PR-Code-8
+              Other-PR-Code-9
+              Other-PR-Code-10
+              Other-PR-Code-11
+              Other-PR-Code-12
+              Other-PR-Code-13
+              Other-PR-Code-14
+              Cause-E-Code
+              Place-E-Code
+              Reimb DRG
+              Reimb MDC
+              AccomCharges
+              AncilCharges
+              TotalCharges
+              Serv-Class
+              Residence-Ind
+              Emergency-Dept-Ind
+              CMC1
+              CMC2
+              CMC3
+              CMC4
+              CMC5
+              CMC6
+              CMC7
+              CMC8
+              CMC9
+              CMC10
+              PL1
+              PL2
+              PL3
+              PL4
+              PL5
+              Pot Amb
+              Complication-Minor
+              Complication-Sever
+              Trauma-Minor
+              Trauma-Severe
+              Trauma-Severity
+              Nosocomial Inf
+              Severity
+              Cost Weight
+Test mode:    evaluate on training data
+
+=== Model and evaluation on training set ===
+
+
+kMeans
+======
+
+Number of iterations: 13
+Within cluster sum of squared errors: 2263915.3687745165
+Missing values globally replaced with mean/mode
+
+Cluster centroids:
+                                     Cluster#
+Attribute               Full Data           0           1           2           3           4           5
+                          (99999)     (14877)     (21184)     (16533)     (16473)     (16011)     (14921)
+=========================================================================================================
+RecordID              134369.5448 109937.9455 121769.4689 128329.2187 146702.7965 148254.4143 154795.6105
+PatientID               39095.379  31977.7233  35422.5353  37334.1462  42688.1443  43141.9736   45049.383
+Record Count               3.6849      3.6437      3.9381      3.7549      3.4922      3.6419      3.5477
+Interval                 135.3515    132.0802    134.7347    140.6726    137.3181    132.9664    133.9807
+Patient-Sex                     F           F           M           F           F           F           M
+Age                       72.7984     76.1225     70.6299     73.6346     78.0537     69.0489     69.8575
+Patient-Race                    1           1           1           1           1           1           1
+Patient-Ethnicity               2           2           2           2           2           2           2
+Patient-Disposition             1           3           1           1           3           1           1
+Length of Stay             7.8484     10.6953       5.671      6.2505     10.6994      5.4744      9.2716
+Admit-Type                      1           1           1           1           1           1           1
+Admit-Source                    7           7           7           7           7           7           7
+Hospital-ID                    73          73          73          38         211          34         167
+Region-ID                       C           C           C           L           H           M           C
+Principal-Dx-Code            4280        4280        4280       49121         486        4280       41401
+Admit-Dx-Code                4280        4280        4280       49121         486        4280       78650
+Other-Dx-Code-1            4280.0      4280.0      4019.0      4280.0      4280.0      4280.0      4280.0
+Other-Dx-Code-2            4280.0     42731.0      4280.0      4280.0      4280.0      4280.0      4280.0
+Other-Dx-Code-3            4019.0      4019.0      4019.0      4019.0      4280.0      4019.0      4019.0
+Other-Dx-Code-4            4019.0       496.0      4019.0      4019.0      4280.0      4019.0      4019.0
+Other-Dx-Code-5            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-6            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-7            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-8            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-9            4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-10           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-11           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-12           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-13           4019.0      4019.0      4019.0      4019.0      4019.0      4019.0      4019.0
+Other-Dx-Code-14            V4581       V4581       V4581       V4581       V4581       V4581       V4581
+Principal-PR-Code            8872        8872        8872        8872        8872        8872        3722
+Other-PR-Code-1              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-2              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-3              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-4              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-5              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-6              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-7              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-8              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-9              9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-10             9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-11             9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-12             9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-13             9904        9904        9904        9904        9904        9904        9904
+Other-PR-Code-14             9904        9904        9904        9904        9904        9904        9904
+Cause-E-Code                E8788       E8788       E8788       E8788       E8788       E8788       E8788
+Place-E-Code                E8490       E8490       E8490       E8490       E8490       E8490       E8490
+Reimb DRG                     127         127         127          88          89         127         124
+Reimb MDC                       5           5           5           4           4           5           5
+AccomCharges           18609.9772  25727.1975  13560.8811  12468.6655  24045.6658  13450.9868  25021.7436
+AncilCharges           15277.3074  20701.0362  10685.6095   8524.2031  16614.7543   10814.789  27183.2392
+TotalCharges           33887.2846  46428.2337  24246.4906  20992.8686  40660.4201  24265.7758  52204.9828
+Serv-Class                      1           2           1           1           1           1           2
+Residence-Ind                   H           H           H           H           H           H           H
+Emergency-Dept-Ind              E           E           E           E           E           E           E
+CMC1                         3930        3920        3930         401        5004        3917         307
+CMC2                         4144         401        4144        3930        5005           0        3990
+CMC3                            0        4144        1607        4144        5005           0        4144
+CMC4                            0           0           0           0           0           0           0
+CMC5                            0           0           0           0           0           0           0
+CMC6                            0           0           0           0           0           0           0
+CMC7                            0           0           0           0           0           0           0
+CMC8                            0           0           0           0           0           0           0
+CMC9                            0           0           0           0           0           0           0
+CMC10                           0           0           0           0           0           0           0
+PL1                             5           5           5          17          17           5           5
+PL2                             5          17          18           5           5          99           9
+PL3                            99          14          99          18          99          99          18
+PL4                            99          99          99          99          99          99          99
+PL5                            99          99          99          99          99          99          99
+Pot Amb                         0           0           0           0           0           0           0
+Complication-Minor         0.5856      0.7079      0.3706      0.5483      1.1116      0.2445      0.5955
+Complication-Sever          0.253      0.3494      0.1673      0.1101      0.5131      0.1108      0.3025
+Trauma-Minor                0.014      0.0208      0.0097      0.0163      0.0193      0.0074      0.0118
+Trauma-Severe              0.0379      0.0787      0.0147      0.0363      0.0546      0.0111       0.042
+Trauma-Severity            0.0812      0.1562      0.0367      0.0838      0.1116      0.0275      0.0907
+Nosocomial Inf                  0           0           0           0           0           0           0
+Severity                        3           3           3           3           4           1           5
+Cost Weight                 2.173      2.4878      1.7909      1.8503      2.6511      1.4664      2.9896
+
+
+Clustered Instances
+
+0      14877 ( 15%)
+1      21184 ( 21%)
+2      16533 ( 17%)
+3      16473 ( 16%)
+4      16011 ( 16%)
+5      14921 ( 15%)
+
