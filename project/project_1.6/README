@@ -124,3 +124,12 @@ Again, I got the same output:
 01:54:48: Class attribute is not nominal!
 01:54:48: Interrupted
 01:54:48: There was 1 error
+
+After looking at the data again, I found that since the order of attributes changed, 
+the Patient-Disposition field's index had changed (along with any attribute with 
+index >8).  The new NumericToNominal line I needed to run was:
+
+weka.filters.unsupervised.attribute.NumericToNominal -R 7-8,10-12,14-29,30-44,47-48,52,55-70,76-77,79
+
+The experiment started running.... but yet again WEKA crashed eventually with 
+the ever-present out of memory error :(
