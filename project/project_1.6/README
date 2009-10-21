@@ -49,3 +49,78 @@ concerned with finding a way to predict the disposition codes of
 20 (Hospice - Medical Facility) and 2 (Other Acute Care Hospital).  In order to 
 reduce the amount of noise in the dataset, perhaps the classifications could be 
 reduced to simply: 20, 2, or anything else.
+
+To fix the problem, I converted the train-a.arff file into a csv file, after which 
+I wrote a quick perl script to do the find/replacement of any codes that were not 
+2 or 20 with a 0 (octal \060 in the regex), and to leave all other fields and 
+lines alone.  I then ran the perl script on the csv file to create another 
+reduced csv file.  Weka was able to read the new file and convert it to arff format 
+fine.  The perl script is called "reduce_disp_codes.pl".
+The next time I ran the ZeroR classifier again, it gave me this:
+
+=== Classifier model (full training set) ===
+
+ZeroR predicts class value: 0.5835558355583556
+
+Time taken to build model: 0.03 seconds
+
+=== Cross-validation ===
+=== Summary ===
+
+Correlation coefficient                 -0.0055
+Mean absolute error                      1.0829
+Root mean squared error                  3.3144
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances            99999  
+
+WEKA was predicting an invalid floating point value of 0.583 for the disposition 
+code! Because I had converted to a CSV file, the previous NumericToNominal 
+processing that I had done in project 1.5 was lost!  I simply re-ran my filter 
+commands to re-nominalize the nominal fields:
+
+weka.filters.unsupervised.attribute.NumericToNominal -R 7-9,11-13,15-16,31-45,48-49,53,56-71,77-78
+
+After this, the ZeroR classifier's accuracy improved amazingly!
+The full run buffer was saved to "ZeroR_reduced_result.txt".  
+
+=== Classifier model (full training set) ===
+
+ZeroR predicts class value: 0
+
+Time taken to build model: 0.09 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       93593               93.5939 %
+Incorrectly Classified Instances      6406                6.4061 %
+Kappa statistic                          0     
+Mean absolute error                      0.0812
+Root mean squared error                  0.2015
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances            99999  
+
+The classifier was able to correctly classify the opposite of our disposition codes 
+of interest.  That is to say: any code EXCEPT 2 OR 20 can be classified 93.59% of 
+the time.
+
+Next, I decided to do a quick experiment comparing some other classifiers to the 
+ZeroR one.  I opened the WEKA experimenter and tried to compare the ZeroR, J48 and 
+BFTree classifiers, however I kept getting the error: "Class attribute is not nominal!".
+From this link, I found that in the experimenter, the class attribute is by default 
+assumed to be the last one: 
+https://list.scms.waikato.ac.nz/pipermail/wekalist/2002-April/000222.html
+
+I opened the csv file in excel and copied/pasted the "I" column which cooresponded 
+to the Patient-Disposition to the very end.  After waiting for a bit, I saved as a 
+new CSV file.  Again, I ran the NumericToNominal command in WEKA's explorer, and 
+tried my experiment a second time.
+
+Again, I got the same output:
+
+01:54:44: Started
+01:54:48: Class attribute is not nominal!
+01:54:48: Interrupted
+01:54:48: There was 1 error
