@@ -1,0 +1,143 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.rules.ZeroR 
+Relation:     train-a-weka.filters.unsupervised.attribute.NumericToNominal-R7-9,11-13,15-16,31-45,48-49,53,56-71,77-78-weka.filters.unsupervised.attribute.Remove-R1-3,13-14
+Instances:    99999
+Attributes:   74
+              Interval
+              Patient-Sex
+              Age
+              Patient-Race
+              Patient-Ethnicity
+              Patient-Disposition
+              Length of Stay
+              Admit-Type
+              Admit-Source
+              Principal-Dx-Code
+              Admit-Dx-Code
+              Other-Dx-Code-1
+              Other-Dx-Code-2
+              Other-Dx-Code-3
+              Other-Dx-Code-4
+              Other-Dx-Code-5
+              Other-Dx-Code-6
+              Other-Dx-Code-7
+              Other-Dx-Code-8
+              Other-Dx-Code-9
+              Other-Dx-Code-10
+              Other-Dx-Code-11
+              Other-Dx-Code-12
+              Other-Dx-Code-13
+              Other-Dx-Code-14
+              Principal-PR-Code
+              Other-PR-Code-1
+              Other-PR-Code-2
+              Other-PR-Code-3
+              Other-PR-Code-4
+              Other-PR-Code-5
+              Other-PR-Code-6
+              Other-PR-Code-7
+              Other-PR-Code-8
+              Other-PR-Code-9
+              Other-PR-Code-10
+              Other-PR-Code-11
+              Other-PR-Code-12
+              Other-PR-Code-13
+              Other-PR-Code-14
+              Cause-E-Code
+              Place-E-Code
+              Reimb DRG
+              Reimb MDC
+              AccomCharges
+              AncilCharges
+              TotalCharges
+              Serv-Class
+              Residence-Ind
+              Emergency-Dept-Ind
+              CMC1
+              CMC2
+              CMC3
+              CMC4
+              CMC5
+              CMC6
+              CMC7
+              CMC8
+              CMC9
+              CMC10
+              PL1
+              PL2
+              PL3
+              PL4
+              PL5
+              Pot Amb
+              Complication-Minor
+              Complication-Sever
+              Trauma-Minor
+              Trauma-Severe
+              Trauma-Severity
+              Nosocomial Inf
+              Severity
+              Cost Weight
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+ZeroR predicts class value: 1
+
+Time taken to build model: 0.12 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       44001               44.0014 %
+Incorrectly Classified Instances     55998               55.9986 %
+Kappa statistic                          0     
+Mean absolute error                      0.0838
+Root mean squared error                  0.2046
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances            99999     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 1         1          0.44      1         0.611      0.5      1
+                 0         0          0         0         0          0.5      2
+                 0         0          0         0         0          0.5      3
+                 0         0          0         0         0          0.498    4
+                 0         0          0         0         0          0.499    5
+                 0         0          0         0         0          0.5      6
+                 0         0          0         0         0          0.5      7
+                 0         0          0         0         0          0.5      8
+                 0         0          0         0         0          0.5      20
+                 0         0          0         0         0          0.454    43
+                 0         0          0         0         0          0.496    50
+                 0         0          0         0         0          0.495    51
+                 0         0          0         0         0          0.498    61
+                 0         0          0         0         0          0.5      62
+                 0         0          0         0         0          0.491    63
+                 0         0          0         0         0          0.5      65
+                 0         0          0         0         0          0.25     66
+Weighted Avg.    0.44      0.44       0.194     0.44      0.269      0.5  
+
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j     k     l     m     n     o     p     q   <-- classified as
+ 44001     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     a = 1
+  4203     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     b = 2
+ 20963     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     c = 3
+   575     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     d = 4
+  1328     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     e = 5
+ 21721     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     f = 6
+  1501     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     g = 7
+   220     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     h = 8
+  2203     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     i = 20
+    26     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     j = 43
+   218     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     k = 50
+   234     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     l = 51
+   211     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     m = 61
+  2408     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     n = 62
+    92     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     o = 63
+    90     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     p = 65
+     5     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |     q = 66
+

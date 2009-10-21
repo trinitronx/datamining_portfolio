@@ -1,0 +1,51 @@
+Project 1.5
+¯¯¯¯¯¯¯¯¯¯¯
+Goal: Run some classifiers on the medical dataset.
+
+I first ran the ZeroR classifier on the dataset with a couple unique attributes 
+removed (such as Patient ID, etc...).  However, this resulted in a pretty bad error 
+rate.  The complete results can be found in the file "ZeroR_initial_result.txt".
+The summary of this run was as follows:
+
+=== Summary ===
+Correctly Classified Instances       44001               44.0014 %
+Incorrectly Classified Instances     55998               55.9986 %
+Kappa statistic                          0     
+Mean absolute error                      0.0838
+Root mean squared error                  0.2046
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances            99999     
+
+I then looked at the visualizer graphs for each attribute and it seemed hat a 
+couple were giving the classifier a lot of extra noise.  In order to alleviate 
+this, I decided to play around with the data and remove the following fields 
+out of curiosity:
+Other-Dx-Code-X (with X= 1 -> 14)
+Other-PR-Code-X (with X= 1 -> 14)
+CMCX (with X= 2 -> 10)
+PLX (with X= 2 -> 5)
+
+However, the classifier still had the same results:
+
+=== Summary ===
+
+Correctly Classified Instances       44001               44.0014 %
+Incorrectly Classified Instances     55998               55.9986 %
+Kappa statistic                          0     
+Mean absolute error                      0.0838
+Root mean squared error                  0.2046
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances            99999 
+
+I then looked at the confusion matrix, and found that it was classifying everything 
+as disposition code 1.  This was the most common disposition code, however obviously 
+the classifier wasn't finding a very good way to classify patients.
+
+For the purposes of our experiment, it wasn't very useful to have a classifier that 
+could classify EVERY disposition code available.  Our project questions were mainly 
+concerned with finding a way to predict the disposition codes of 
+20 (Hospice - Medical Facility) and 2 (Other Acute Care Hospital).  In order to 
+reduce the amount of noise in the dataset, perhaps the classifications could be 
+reduced to simply: 20, 2, or anything else.
