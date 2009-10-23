@@ -1,0 +1,21 @@
+Tester:     weka.experiment.PairedCorrectedTTester
+Analysing:  Percent_correct
+Datasets:   1
+Resultsets: 3
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       10/23/09 12:50 PM
+
+
+Dataset                   (1) rules.NN | (2) rules (3) rules
+------------------------------------------------------------
+weather                  (100)   66.00 |   55.50     67.50  
+------------------------------------------------------------
+                               (v/ /*) |   (0/1/0)   (0/1/0)
+
+
+Key:
+(1) rules.NNge '-G 5 -I 5' 4084742275553788972
+(2) rules.Ridor '-F 3 -S 1 -N 2.0' -7261533075088314436
+(3) rules.JRip '-F 3 -N 2.0 -O 2 -S 1' -6589312996832147161
+
