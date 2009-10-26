@@ -1,0 +1,70 @@
+weka.filters.unsupervised.attribute.NumericToNominal -R 7-8,10-12,14-29,30-44,47-48,52,55-70,76-77,79
+
+LINE #   FIELD NAME
+00000007 Patient-Race
+00000008 Patient-Ethnicity
+---------------------------
+
+00000010 Admit-Type
+00000011 Admit-Source
+00000012 Hospital-ID
+
+00000014 Principal-Dx-Code
+00000015 Admit-Dx-Code
+00000016 Other-Dx-Code-1
+00000017 Other-Dx-Code-2
+00000018 Other-Dx-Code-3
+00000019 Other-Dx-Code-4
+00000020 Other-Dx-Code-5
+00000021 Other-Dx-Code-6
+00000022 Other-Dx-Code-7
+00000023 Other-Dx-Code-8
+00000024 Other-Dx-Code-9
+00000025 Other-Dx-Code-10
+00000026 Other-Dx-Code-11
+00000027 Other-Dx-Code-12
+00000028 Other-Dx-Code-13
+00000029 Other-Dx-Code-14
+
+00000030 Principal-PR-Code
+00000031 Other-PR-Code-1
+00000032 Other-PR-Code-2
+00000033 Other-PR-Code-3
+00000034 Other-PR-Code-4
+00000035 Other-PR-Code-5
+00000036 Other-PR-Code-6
+00000037 Other-PR-Code-7
+00000038 Other-PR-Code-8
+00000039 Other-PR-Code-9
+00000040 Other-PR-Code-10
+00000041 Other-PR-Code-11
+00000042 Other-PR-Code-12
+00000043 Other-PR-Code-13
+00000044 Other-PR-Code-14
+
+00000047 Reimb DRG
+00000048 Reimb MDC
+
+00000052 Serv-Class
+
+00000055 CMC1
+00000056 CMC2
+00000057 CMC3
+00000058 CMC4
+00000059 CMC5
+00000060 CMC6
+00000061 CMC7
+00000062 CMC8
+00000063 CMC9
+00000064 CMC10
+00000065 PL1
+00000066 PL2
+00000067 PL3
+00000068 PL4
+00000069 PL5
+00000070 Pot Amb
+
+00000076 Nosocomial Inf
+00000077 Severity
+
+00000079 Patient-Disposition

@@ -1,0 +1,120 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.rules.ZeroR 
+Relation:     train-a_reduced-weka.filters.unsupervised.attribute.NumericToNominal-R7-9,11-13,15-16,31-45,48-49,53,56-71,77-78
+Instances:    99999
+Attributes:   79
+              RecordID
+              PatientID
+              Record Count
+              Interval
+              Patient-Sex
+              Age
+              Patient-Race
+              Patient-Ethnicity
+              Patient-Disposition
+              Length of Stay
+              Admit-Type
+              Admit-Source
+              Hospital-ID
+              Region-ID
+              Principal-Dx-Code
+              Admit-Dx-Code
+              Other-Dx-Code-1
+              Other-Dx-Code-2
+              Other-Dx-Code-3
+              Other-Dx-Code-4
+              Other-Dx-Code-5
+              Other-Dx-Code-6
+              Other-Dx-Code-7
+              Other-Dx-Code-8
+              Other-Dx-Code-9
+              Other-Dx-Code-10
+              Other-Dx-Code-11
+              Other-Dx-Code-12
+              Other-Dx-Code-13
+              Other-Dx-Code-14
+              Principal-PR-Code
+              Other-PR-Code-1
+              Other-PR-Code-2
+              Other-PR-Code-3
+              Other-PR-Code-4
+              Other-PR-Code-5
+              Other-PR-Code-6
+              Other-PR-Code-7
+              Other-PR-Code-8
+              Other-PR-Code-9
+              Other-PR-Code-10
+              Other-PR-Code-11
+              Other-PR-Code-12
+              Other-PR-Code-13
+              Other-PR-Code-14
+              Cause-E-Code
+              Place-E-Code
+              Reimb DRG
+              Reimb MDC
+              AccomCharges
+              AncilCharges
+              TotalCharges
+              Serv-Class
+              Residence-Ind
+              Emergency-Dept-Ind
+              CMC1
+              CMC2
+              CMC3
+              CMC4
+              CMC5
+              CMC6
+              CMC7
+              CMC8
+              CMC9
+              CMC10
+              PL1
+              PL2
+              PL3
+              PL4
+              PL5
+              Pot Amb
+              Complication-Minor
+              Complication-Sever
+              Trauma-Minor
+              Trauma-Severe
+              Trauma-Severity
+              Nosocomial Inf
+              Severity
+              Cost Weight
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+ZeroR predicts class value: 0
+
+Time taken to build model: 0.09 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       93593               93.5939 %
+Incorrectly Classified Instances      6406                6.4061 %
+Kappa statistic                          0     
+Mean absolute error                      0.0812
+Root mean squared error                  0.2015
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances            99999     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 1         1          0.936     1         0.967      0.5      0
+                 0         0          0         0         0          0.5      2
+                 0         0          0         0         0          0.5      20
+Weighted Avg.    0.936     0.936      0.876     0.936     0.905      0.5  
+
+=== Confusion Matrix ===
+
+     a     b     c   <-- classified as
+ 93593     0     0 |     a = 0
+  4203     0     0 |     b = 2
+  2203     0     0 |     c = 20
+
