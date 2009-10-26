@@ -1,0 +1,21 @@
+Tester:     weka.experiment.PairedCorrectedTTester
+Analysing:  Percent_correct
+Datasets:   1
+Resultsets: 3
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       10/26/09 3:18 PM
+
+
+Dataset                   (1) bayes.Ba | (2) bayes (3) bayes
+------------------------------------------------------------
+weather                   (30)   54.00 |   57.33     56.00  
+------------------------------------------------------------
+                               (v/ /*) |   (0/1/0)   (0/1/0)
+
+
+Key:
+(1) bayes.BayesNet '-D -Q bayes.net.search.local.K2 -- -P 1 -S BAYES -E bayes.net.estimate.SimpleEstimator -- -A 0.5' 746037443258775954
+(2) bayes.NaiveBayes '' 5995231201785697655
+(3) bayes.NaiveBayesSimple '' -1478242251770381214
+

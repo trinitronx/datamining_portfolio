@@ -1,0 +1,572 @@
+Project 1.6
+¯¯¯¯¯¯¯¯¯¯¯
+Goal: Experiment using Weka's Bayesian and ANN classifiers.
+
+For this experiment, I decided to compare 3 Bayesian classifiers: BayesNet, 
+NaiveBayes and NaiveBayesSimple.
+
+According to the WEKA documentation, these classifiers were described as such:
+
+
+BayesNet         - Bayes Network learning using various search algorithms and 
+                   quality measures. 
+				   Base class for a Bayes Network classifier. Provides 
+				   datastructures (network structure, conditional probability 
+				   distributions, etc.) and facilities common to Bayes Network 
+				   learning algorithms like K2 and B.
+				   For more information see:
+				   http://www.cs.waikato.ac.nz/~remco/weka.pdf
+
+NaiveBayes       - Class for a Naive Bayes classifier using estimator classes. 
+                   Numeric estimator precision values are chosen based on 
+				   analysis of the  training data. For this reason, the 
+				   classifier is not an UpdateableClassifier (which in 
+				   typical usage are initialized with zero training 
+				   instances) -- if you need the UpdateableClassifier 
+				   functionality, use the NaiveBayesUpdateable classifier. 
+				   The NaiveBayesUpdateable classifier will  use a default 
+				   precision of 0.1 for numeric attributes when 
+				   buildClassifier is called with zero training instances.
+				   
+				   For more information on Naive Bayes classifiers, see 
+				   George H. John, Pat Langley: 
+				   Estimating Continuous Distributions in Bayesian Classifiers. 
+				   In: Eleventh Conference on Uncertainty in Artificial 
+				   Intelligence, San Mateo, 338-345, 1995.
+
+
+NaiveBayesSimple - Class for building and using a simple Naive Bayes classifier.
+                   Numeric attributes are modelled by a normal distribution.
+
+				   For more information, see
+				   Richard Duda, Peter Hart (1973). Pattern Classification and 
+				   Scene Analysis. Wiley, New York.  
+				   
+
+After running the classifiers individually, initially the NaiveBayes seemed to be 
+the winner with 78.57% correctly classified instances using 3 fold cross-validation.
+However, after performing the repeated experiment in WEKA's experimenter, the 
+algorithms were not any better or worse than one another in a statistically 
+significant way.
+
+The experiment results are as follows:
+
+-------------------------------------------------------------------------------
+
+Tester:     weka.experiment.PairedCorrectedTTester
+Analysing:  Percent_correct
+Datasets:   1
+Resultsets: 3
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       10/26/09 3:18 PM
+
+
+Dataset                   (1) bayes.Ba | (2) bayes (3) bayes
+------------------------------------------------------------
+weather                   (30)   54.00 |   57.33     56.00  
+------------------------------------------------------------
+                               (v/ /*) |   (0/1/0)   (0/1/0)
+
+
+Key:
+(1) bayes.BayesNet '-D -Q bayes.net.search.local.K2 -- -P 1 -S BAYES -E bayes.net.estimate.SimpleEstimator -- -A 0.5' 746037443258775954
+(2) bayes.NaiveBayes '' 5995231201785697655
+(3) bayes.NaiveBayesSimple '' -1478242251770381214
+-------------------------------------------------------------------------------
+
+The individual results for each classifier are as follows:
+
+-------------------------------------------------------------------------------
+
+=== Run information ===
+
+Scheme:       weka.classifiers.bayes.BayesNet -D -Q weka.classifiers.bayes.net.search.local.K2 -- -P 1 -S BAYES -E weka.classifiers.bayes.net.estimate.SimpleEstimator -- -A 0.5
+Relation:     weather
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+Test mode:    3-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Bayes Network Classifier
+not using ADTree
+#attributes=5 #classindex=4
+Network structure (nodes followed by parents)
+outlook(3): play 
+temperature(1): play 
+humidity(1): play 
+windy(2): play 
+play(2): 
+LogScore Bayes: -39.49991749238267
+LogScore BDeu: -46.69773452542813
+LogScore MDL: -46.72727827843424
+LogScore ENTROPY: -37.49057762478084
+LogScore AIC: -44.49057762478084
+
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances          10               71.4286 %
+Incorrectly Classified Instances         4               28.5714 %
+Kappa statistic                          0.3171
+Mean absolute error                      0.3833
+Root mean squared error                  0.4256
+Relative absolute error                 81.7869 %
+Root relative squared error             88.0126 %
+Total Number of Instances               14     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.889     0.6        0.727     0.889     0.8        0.8      yes
+                 0.4       0.111      0.667     0.4       0.5        0.8      no
+Weighted Avg.    0.714     0.425      0.706     0.714     0.693      0.8  
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 8 1 | a = yes
+ 3 2 | b = no
+ 
+ === Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayes 
+Relation:     weather
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+Test mode:    3-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Naive Bayes Classifier
+
+                 Class
+Attribute          yes      no
+                (0.63)  (0.38)
+===============================
+outlook
+  sunny             3.0     4.0
+  overcast          5.0     1.0
+  rainy             4.0     3.0
+  [total]          12.0     8.0
+
+temperature
+  mean          72.9697 74.8364
+  std. dev.      5.2304   7.384
+  weight sum          9       5
+  precision      1.9091  1.9091
+
+humidity
+  mean          78.8395 86.1111
+  std. dev.      9.8023  9.2424
+  weight sum          9       5
+  precision      3.4444  3.4444
+
+windy
+  TRUE              4.0     4.0
+  FALSE             7.0     3.0
+  [total]          11.0     7.0
+
+
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances          11               78.5714 %
+Incorrectly Classified Instances         3               21.4286 %
+Kappa statistic                          0.5532
+Mean absolute error                      0.3763
+Root mean squared error                  0.4449
+Relative absolute error                 80.3092 %
+Root relative squared error             92.0002 %
+Total Number of Instances               14     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.778     0.2        0.875     0.778     0.824      0.8      yes
+                 0.8       0.222      0.667     0.8       0.727      0.8      no
+Weighted Avg.    0.786     0.208      0.801     0.786     0.789      0.8  
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 7 2 | a = yes
+ 1 4 | b = no
+ 
+ === Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayesSimple 
+Relation:     weather
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+Test mode:    3-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Naive Bayes (simple)
+
+Class yes: P(C) = 0.625     
+
+Attribute outlook
+sunny	overcast	rainy	
+0.25      	0.41666667	0.33333333	
+
+Attribute temperature
+Mean: 73	Standard Deviation: 6.164414  
+
+Attribute humidity
+Mean: 79.11111111	Standard Deviation: 10.21572861
+
+Attribute windy
+TRUE	FALSE	
+0.36363636	0.63636364	
+
+
+
+Class no: P(C) = 0.375     
+
+Attribute outlook
+sunny	overcast	rainy	
+0.5       	0.125     	0.375     	
+
+Attribute temperature
+Mean: 74.6	Standard Deviation: 7.8930349 
+
+Attribute humidity
+Mean: 86.2	Standard Deviation: 9.7313925 
+
+Attribute windy
+TRUE	FALSE	
+0.57142857	0.42857143	
+
+
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances          10               71.4286 %
+Incorrectly Classified Instances         4               28.5714 %
+Kappa statistic                          0.3171
+Mean absolute error                      0.3599
+Root mean squared error                  0.4325
+Relative absolute error                 76.797  %
+Root relative squared error             89.4302 %
+Total Number of Instances               14     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.889     0.6        0.727     0.889     0.8        0.778    yes
+                 0.4       0.111      0.667     0.4       0.5        0.778    no
+Weighted Avg.    0.714     0.425      0.706     0.714     0.693      0.778
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 8 1 | a = yes
+ 3 2 | b = no
+ 
+-------------------------------------------------------------------------------
+ 
+After the initial experiments, I decided to compare the Bayesian classifiers with
+the neural network classifiers: MultilayerPerceptron, VotedPerceptron, and Winnow.
+However, as there were numeric attributes in the first datafile.  I switched over 
+to using the nominalized version of the weather dataset instead.  After running the 
+tests individually, it seemed that all of the neural network classifiers performed 
+worse than the bayesian classifiers.  I  also found an interesting GUI option 
+hidden in the MultilayerPerceptron classifier.  It seemed to show 2 layers of 
+perceptron nodes, all connected with lines to symbolize their inputs and outputs.
+The default network is shown in "MultiLayerPerceptronNet.png".
+
+The interface to this was somewhat confusing at first, however after a couple of 
+minutes of randomly clicking and mashing buttons, I found that left click on a node 
+selects it (highlighting it yellow), clicking on any blank space inserts a new node, 
+and right click on a selected node with no connections removes it.  Left clicking 
+on any other node while a different one is selected will connect the two nodes. 
+A right click on any other connected node while a different one is selected removes 
+the connection.  Presumably this interface is somehow useful if you happen to know 
+something about neural networks, however I couldn't manage to figure out how to 
+create a better network using this enigmatic interface.  However, I did manage to 
+create either some exceedingly complex calculations or an infinite loop to happen 
+with the network shown in "MultiLayerNet_with_extra_layer_madness.png".
+
+Surprisingly, after performing the experiment and doing a two tailed T-test 
+with a 95% confidence interval on the results, all 6 classifiers were shown 
+to perform about equally well, as shown from the following results:
+
+-------------------------------------------------------------------------------
+Tester:     weka.experiment.PairedCorrectedTTester
+Analysing:  Percent_correct
+Datasets:   1
+Resultsets: 6
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       10/26/09 4:53 PM
+
+
+Dataset                   (1) bayes.Ba | (2) bayes (3) bayes (4) funct (5) funct (6) funct
+------------------------------------------------------------------------------------------
+weather.symbolic          (30)   65.17 |   65.83     65.83     59.67     65.67     41.00  
+------------------------------------------------------------------------------------------
+                               (v/ /*) |   (0/1/0)   (0/1/0)   (0/1/0)   (0/1/0)   (0/1/0)
+
+
+Key:
+(1) bayes.BayesNet '-D -Q bayes.net.search.local.K2 -- -P 1 -S BAYES -E bayes.net.estimate.SimpleEstimator -- -A 0.5' 746037443258775954
+(2) bayes.NaiveBayes '' 5995231201785697655
+(3) bayes.NaiveBayesSimple '' -1478242251770381214
+(4) functions.MultilayerPerceptron '-L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a' 572250905027665169
+(5) functions.VotedPerceptron '-I 1 -E 1.0 -S 1 -M 10000' -1072429260104568698
+(6) functions.Winnow '-I 1 -A 2.0 -B 0.5 -H -1.0 -W 2.0 -S 1' 3543770107994321324
+
+-------------------------------------------------------------------------------
+
+=== Run information ===
+
+Scheme:       weka.classifiers.functions.VotedPerceptron -I 1 -E 1.0 -S 1 -M 10000
+Relation:     weather.symbolic
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+VotedPerceptron: Number of perceptrons=4
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances           8               57.1429 %
+Incorrectly Classified Instances         6               42.8571 %
+Kappa statistic                         -0.1351
+Mean absolute error                      0.3918
+Root mean squared error                  0.5825
+Relative absolute error                 82.2829 %
+Root relative squared error            118.0664 %
+Total Number of Instances               14     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.889     1          0.615     0.889     0.727      0.622    yes
+                 0         0.111      0         0         0          0.622    no
+Weighted Avg.    0.571     0.683      0.396     0.571     0.468      0.622
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 8 1 | a = yes
+ 5 0 | b = no
+ 
+-------------------------------------------------------------------------------
+ === Run information ===
+
+Scheme:       weka.classifiers.functions.Winnow -I 1 -A 2.0 -B 0.5 -H -1.0 -W 2.0 -S 1
+Relation:     weather.symbolic
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Winnow
+
+Attribute weights
+
+w0 8.0
+w1 1.0
+w2 2.0
+w3 4.0
+w4 2.0
+w5 2.0
+w6 1.0
+w7 1.0
+
+Cumulated mistake count: 7
+
+
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances           7               50      %
+Incorrectly Classified Instances         7               50      %
+Kappa statistic                         -0.2564
+Mean absolute error                      0.5   
+Root mean squared error                  0.7071
+Relative absolute error                105      %
+Root relative squared error            143.3236 %
+Total Number of Instances               14     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.778     1          0.583     0.778     0.667      0.389    yes
+                 0         0.222      0         0         0          0.389    no
+Weighted Avg.    0.5       0.722      0.375     0.5       0.429      0.389
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 7 2 | a = yes
+ 5 0 | b = no
+-------------------------------------------------------------------------------
+ === Run information ===
+
+Scheme:       weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a -G -R
+Relation:     weather.symbolic
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Sigmoid Node 0
+    Inputs    Weights
+    Threshold    0.011303576804461382
+    Node 2    0.011850776365702677
+    Node 3    -0.04753959806853169
+    Node 4    -0.018370069737576836
+    Node 5    -0.035625493582980464
+    Node 6    0.040431974347463484
+Sigmoid Node 1
+    Inputs    Weights
+    Threshold    0.04828195255872983
+    Node 2    0.011165074786232076
+    Node 3    0.0429940506718635
+    Node 4    -0.00211881373779247
+    Node 5    -0.030938315802372954
+    Node 6    -0.021284810000068835
+Sigmoid Node 2
+    Inputs    Weights
+    Threshold    -0.047691814688966896
+    Attrib outlook=sunny    -0.04986133195945657
+    Attrib outlook=overcast    -0.04850729141188818
+    Attrib outlook=rainy    0.007003430749918639
+    Attrib temperature=hot    0.0046127424881792015
+    Attrib temperature=mild    -0.01408346524393883
+    Attrib temperature=cool    0.010645802109474758
+    Attrib humidity    -0.018862150285288082
+    Attrib windy    0.044818473924230676
+Sigmoid Node 3
+    Inputs    Weights
+    Threshold    -0.03240231979645199
+    Attrib outlook=sunny    -0.04907751386689119
+    Attrib outlook=overcast    0.04766978471088823
+    Attrib outlook=rainy    -0.04871933484242805
+    Attrib temperature=hot    -0.03140103373143921
+    Attrib temperature=mild    -0.022575293474665893
+    Attrib temperature=cool    0.043236809926550074
+    Attrib humidity    -0.02965962312446957
+    Attrib windy    0.018993883149676594
+Sigmoid Node 4
+    Inputs    Weights
+    Threshold    -0.018706403480623447
+    Attrib outlook=sunny    0.006294967389837924
+    Attrib outlook=overcast    0.018823451529790217
+    Attrib outlook=rainy    -0.008778225590736523
+    Attrib temperature=hot    -0.019312884327237136
+    Attrib temperature=mild    0.016684934603420368
+    Attrib temperature=cool    0.024445912041881485
+    Attrib humidity    -0.04172136335123555
+    Attrib windy    -0.0451840582741909
+Sigmoid Node 5
+    Inputs    Weights
+    Threshold    -0.01320242412894719
+    Attrib outlook=sunny    -0.0247116869313324
+    Attrib outlook=overcast    0.036767866829397367
+    Attrib outlook=rainy    0.02257748678227514
+    Attrib temperature=hot    0.017107624881015734
+    Attrib temperature=mild    0.018950398785502046
+    Attrib temperature=cool    0.003384419698389027
+    Attrib humidity    -0.008522454362671072
+    Attrib windy    -0.010479295335213488
+Sigmoid Node 6
+    Inputs    Weights
+    Threshold    0.02051747444754559
+    Attrib outlook=sunny    -0.021409521384840913
+    Attrib outlook=overcast    0.048094516594934564
+    Attrib outlook=rainy    0.04846741428068256
+    Attrib temperature=hot    -0.043572640205591345
+    Attrib temperature=mild    0.03159375688250311
+    Attrib temperature=cool    -0.045505569608527446
+    Attrib humidity    -0.024824454231093897
+    Attrib windy    0.02680212410425596
+Class yes
+    Input
+    Node 0
+Class no
+    Input
+    Node 1
+
+
+Time taken to build model: 7.94 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances           6               42.8571 %
+Incorrectly Classified Instances         8               57.1429 %
+Kappa statistic                         -0.0566
+Mean absolute error                      0.399 
+Root mean squared error                  0.5498
+Relative absolute error                 83.7988 %
+Root relative squared error            111.4429 %
+Total Number of Instances               14     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.333     0.4        0.6       0.333     0.429      0.667    yes
+                 0.6       0.667      0.333     0.6       0.429      0.667    no
+Weighted Avg.    0.429     0.495      0.505     0.429     0.429      0.667
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 3 6 | a = yes
+ 2 3 | b = no
+-------------------------------------------------------------------------------
