@@ -1,0 +1,269 @@
+Project 3.1
+¯¯¯¯¯¯¯¯¯¯¯
+Goal: Experiment using Weka's Association Rule mining tools.
+
+For this experiment, I compared the association learners:
+ Apriori, PredictiveApriori, Tertius, and HotSpot.
+
+According to the WEKA documentation, these association learners were explained 
+as follows: 
+
+Apriori - Iteratively reduces the minimum support until it finds the required 
+          number of rules with the given minimum confidence. The algorithm has 
+					an option to mine class association rules.
+					
+					I looked further and found a powerpoint presentation that explains it 
+					a bit better, and compares it to the PredictiveApriori associator 
+					here: http://www.cs.waikato.ac.nz/~smm52/ai2004.ppt
+					
+					The presentation explained that it generates all (class) association
+					rules with support and confidence larger than predefined values.
+					It first makes sure that all item sets have N records above the 
+					minimum support value (frequent item sets).  It divides the frequent 
+					item sets into a body & head part, and then checks that the confidence
+					value is above the minimum confidence threshold.
+					The main difference between this and the PredictiveApriori algorithm 
+					is that it sorts the records by confidence.
+
+
+
+PredictiveApriori - It searches with an increasing support threshold for the 
+          best 'n' rules concerning a support-based corrected confidence value.
+					
+					The presentation mentioned above explained that this algorithm sorts 
+					records based on the expected predicted accuracy.  From the slide, it 
+					is obvious that this algorithm is based on statistical probability of 
+					the predicted accuracy of a rule.  In probability terms, this can be 
+					expressed as:
+					c(X => Y) = P(r satisfies y | r satisfies x)
+					The pruning strategy of the algorithm outputs the best N rules 
+					according to their expected predicted accuracy.
+
+Tertius - Finds rules according to confirmation measure (Tertius-type algorithm)
+          As this description was not very helpful, I looked up the tertius 
+          algorithm and found that the algorithm is described in the following
+					steps. Although some terms here may be a bit vague, the document found
+					here may help: http://www.cs.bris.ac.uk/Publications/Papers/1000568.pdf
+					1) Put an empty rule on the "agenda"
+					2) While agenda is not empty:
+						a) if the 1st rule on the agenda can be stored in the results, add 
+						   it to the results
+						b) if the rule can be "refined", then refine it.  Then, for each 
+						   "child" rule, calculate an optimistic estimate & confirmation 
+							 score.
+							 If the child can be stored in the agenda, put it in.
+					3) Sort the agenda according to optimistic estimate & continue from 2.
+
+HotSpot - HotSpot learns a set of rules (displayed in a tree-like 
+          structure) that maximize/minimize a target variable/value of interest. 
+          With a nominal target, one might want to look for segments of the data 
+          where there is a high probability of a minority value occuring (given 
+          the constraint of a minimum support). For a numeric target, one might 
+          be interested in finding segments where this is higher on average than 
+          in the whole data set. For example, in a health insurance scenario, 
+          find which health insurance groups are at the highest risk (have the 
+          highest claim ratio), or, which groups have the highest average 
+          insurance payout.
+
+
+The experiment:
+
+I first decided to run each of the association learners individually to see the 
+detailed results.  WEKA's Experimenter facility did not support statistical 
+tests on associators, only giving me the choice to look at different 
+classification algorithms, which was not what I wanted to do.  For the HotSpot 
+associator, the non-nominalized version of the weather dataset was used, as this
+algorithm did not support nominal target values.
+
+First, the Apriori associator results I saw gave 10 rules. The minimum 
+confidence was set to 0.9, while the minimum support was 2 instances, which 
+translated to 0.15 for our dataset. These default values seemed reasonable 
+considering the size of the weather dataset. 
+
+
+APRIORI RESULTS:
+-------------------------------------------------------------------------------
+
+=== Run information ===
+
+Scheme:       weka.associations.Apriori -N 10 -T 0 -C 0.9 -D 0.05 -U 1.0 -M 0.1 -S -1.0 -c -1
+Relation:     weather.symbolic
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+=== Associator model (full training set) ===
+
+
+Apriori
+=======
+
+Minimum support: 0.15 (2 instances)
+Minimum metric <confidence>: 0.9
+Number of cycles performed: 17
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 12
+
+Size of set of large itemsets L(2): 47
+
+Size of set of large itemsets L(3): 39
+
+Size of set of large itemsets L(4): 6
+
+Best rules found:
+
+ 1. outlook=overcast 4 ==> play=yes 4    conf:(1)
+ 2. temperature=cool 4 ==> humidity=normal 4    conf:(1)
+ 3. humidity=normal windy=FALSE 4 ==> play=yes 4    conf:(1)
+ 4. outlook=sunny play=no 3 ==> humidity=high 3    conf:(1)
+ 5. outlook=sunny humidity=high 3 ==> play=no 3    conf:(1)
+ 6. outlook=rainy play=yes 3 ==> windy=FALSE 3    conf:(1)
+ 7. outlook=rainy windy=FALSE 3 ==> play=yes 3    conf:(1)
+ 8. temperature=cool play=yes 3 ==> humidity=normal 3    conf:(1)
+ 9. outlook=sunny temperature=hot 2 ==> humidity=high 2    conf:(1)
+10. temperature=hot play=no 2 ==> outlook=sunny 2    conf:(1)
+
+-------------------------------------------------------------------------------
+
+Next, I ran the PredictiveApriori associator on the data. The default setting 
+for the number of rules was 100, so I adjusted this down to 10 so it could be 
+compared to the Apriori algorithm. When compared with the rules generated by the 
+Apriori associator, the first 3 were exactly the same. Afterwards, the rules 
+differed because the PredictiveApriori algorithm started finding rules that were 
+not true for all records they applied to. It can be seen in the Apriori results 
+above that the number of applicable records & # that they work for are all the 
+same, giving each a confidence of 1, or 100%. For the PredictiveApriori, rules 
+4-10 became increasingly less accurate, which was to be expected from this 
+algorithm. 
+
+
+PREDICTIVE APRIORI RESULTS:
+-------------------------------------------------------------------------------
+=== Run information ===
+
+Scheme:       weka.associations.PredictiveApriori -N 10 -c -1
+Relation:     weather.symbolic
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+=== Associator model (full training set) ===
+
+
+PredictiveApriori
+===================
+
+
+Best rules found:
+
+ 1. outlook=overcast 4 ==> play=yes 4    acc:(0.95323)
+ 2. temperature=cool 4 ==> humidity=normal 4    acc:(0.95323)
+ 3. humidity=normal windy=FALSE 4 ==> play=yes 4    acc:(0.95323)
+ 4. humidity=normal 7 ==> play=yes 6    acc:(0.69497)
+ 5. play=no 5 ==> humidity=high 4    acc:(0.59096)
+ 6. windy=FALSE 8 ==> play=yes 6    acc:(0.56435)
+ 7. temperature=hot 4 ==> humidity=high 3    acc:(0.54473)
+ 8. temperature=hot 4 ==> windy=FALSE 3    acc:(0.54473)
+ 9. temperature=cool 4 ==> play=yes 3    acc:(0.54473)
+10. humidity=normal play=yes 6 ==> windy=FALSE 4    acc:(0.51949)
+
+
+-------------------------------------------------------------------------------
+
+Finally, I ran the Tertius associator, which did not have a setting to alter the 
+number of rules generated. It found 24 rules, with confirmation values listed 
+for each. The first number listed is the confirmation value, the second is the 
+frequency of counter-instances. A good number of rules had 0 frequency of 
+counter-instances, which seemed to indicate that this algorithm generated some 
+good rules.
+
+TERTIUS RESULTS:
+-------------------------------------------------------------------------------
+=== Run information ===
+
+Scheme:       weka.associations.Tertius -K 10 -F 0.0 -N 1.0 -L 4 -G 0 -c 0 -I 0 -P 0
+Relation:     weather.symbolic
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+=== Associator model (full training set) ===
+
+
+Tertius
+=======
+
+ 1. /* 0.633754 0.071429 */ play = yes ==> humidity = normal or outlook = overcast
+ 2. /* 0.607625 0.000000 */ humidity = normal ==> temperature = cool or play = yes
+ 3. /* 0.607625 0.000000 */ temperature = cool ==> humidity = normal
+ 4. /* 0.594071 0.214286 */ humidity = normal ==> temperature = cool
+ 5. /* 0.590214 0.000000 */ humidity = high and outlook = sunny ==> play = no
+ 6. /* 0.555556 0.000000 */ play = no ==> windy = TRUE or outlook = sunny
+ 7. /* 0.486606 0.000000 */ play = no and outlook = sunny ==> humidity = high
+ 8. /* 0.486606 0.000000 */ humidity = normal ==> play = yes or outlook = rainy
+ 9. /* 0.469374 0.000000 */ outlook = overcast ==> play = yes
+10. /* 0.469374 0.000000 */ windy = FALSE and outlook = overcast ==> temperature = hot
+11. /* 0.469374 0.000000 */ outlook = overcast ==> temperature = hot or windy = TRUE
+12. /* 0.469374 0.000000 */ temperature = hot and play = yes ==> outlook = overcast
+13. /* 0.469374 0.000000 */ play = no ==> humidity = high or windy = TRUE
+14. /* 0.469374 0.000000 */ temperature = hot ==> play = no or outlook = overcast
+15. /* 0.469374 0.000000 */ temperature = hot ==> humidity = high or outlook = overcast
+16. /* 0.469374 0.000000 */ humidity = high and play = no ==> temperature = mild or outlook = sunny
+17. /* 0.469374 0.000000 */ temperature = mild and play = yes ==> windy = TRUE or outlook = rainy
+18. /* 0.469374 0.000000 */ outlook = sunny ==> temperature = cool or windy = TRUE or play = no
+19. /* 0.467119 0.357143 */ play = yes ==> outlook = overcast
+20. /* 0.458333 0.071429 */ play = yes ==> windy = FALSE or outlook = overcast
+21. /* 0.458333 0.071429 */ humidity = high and play = no ==> outlook = sunny
+22. /* 0.439100 0.071429 */ play = no ==> humidity = high
+23. /* 0.439100 0.071429 */ humidity = high ==> temperature = mild or play = no
+24. /* 0.439100 0.071429 */ humidity = high ==> temperature = mild or outlook = sunny
+
+Number of hypotheses considered: 1724
+Number of hypotheses explored: 689
+-------------------------------------------------------------------------------
+
+Finally, the HotSpot associator was run on the dataset using the temperature 
+attribute as the target.  This associator generated a tree view of some rules 
+that maximized the target attribute (temperature).  The results were pretty self
+explanatory, and it seemed to work pretty well for the small dataset.
+
+-------------------------------------------------------------------------------
+=== Run information ===
+
+Scheme:       weka.associations.HotSpot -c 2 -V first -S 0.33 -M 2 -I 0.01
+Relation:     weather
+Instances:    14
+Attributes:   5
+              outlook
+              temperature
+              humidity
+              windy
+              play
+=== Associator model (full training set) ===
+
+
+Hot Spot
+========
+Total population: 14 instances
+Target attribute: temperature
+Minimum segment size: 5 instances (33% of total population)
+Maximum branching factor: 2
+Minimum improvement in target: 1%
+
+temperature (73.5714)
+  outlook = sunny (76.2 [5])
+  humidity > 80 (76.1429 [7])
+  |   humidity <= 91 (78.2 [5])
+
+-------------------------------------------------------------------------------
