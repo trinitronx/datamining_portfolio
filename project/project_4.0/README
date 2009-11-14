@@ -3,3 +3,12 @@ Project 4.0
 Goal: Gain some experience using WEKA as a tool to engage in a more realistic 
       mining scenario.
 			
+Procedure: Followed tutorials in "weka_kf_ex.pdf" and saved results files.
+
+Manifest:
+
+J48_example.kf - WEKA knowledgeflow file for J48 crossfolds evaluation
+iris_experiment.exp - Saved WEKA experiment configuration file
+iris_experiment_results.csv - Results file saved after experiment was performed
+iris_experiment_results.txt - Analyzed results from the T-test done on "iris_experiment_results.csv"
+
