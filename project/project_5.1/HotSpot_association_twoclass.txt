@@ -1,0 +1,23 @@
+=== Run information ===
+
+Scheme:       weka.associations.HotSpot -c last -V first -S 0.33 -M 2 -I 0.01
+Relation:     communities.data
+Instances:    1994
+Attributes:   103
+              [list of attributes omitted]
+=== Associator model (full training set) ===
+
+
+Hot Spot
+========
+Total population: 1994 instances
+Target attribute: ViolentCrimesPerPop
+Target value: 0 [value count in total population: 1620 instances (81.24%)]
+Minimum value count for segments: 658 instances (33% of total population)
+Maximum branching factor: 2
+Minimum improvement in target: 1%
+
+ViolentCrimesPerPop=0 (81.24% [1620/1994])
+  PctPopUnderPov <= 0.15 (99.71% [691/693])
+  PctKids2Par > 0.71 (99.46% [733/737])
+

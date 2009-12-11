@@ -1,0 +1,53 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.rules.JRip -F 3 -N 2.0 -O 5 -S 1
+Relation:     communities.data
+Instances:    1994
+Attributes:   103
+              [list of attributes omitted]
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+JRIP rules:
+===========
+
+(PctKids2Par <= 0.48) and (NumIlleg >= 0.05) and (PctImmigRec10 >= 0.55) => ViolentCrimesPerPop=1 (100.0/10.0)
+(PctIlleg >= 0.33) and (PctFam2Par <= 0.4) and (PctNotSpeakEnglWell >= 0.04) and (TotalPctDiv >= 0.65) => ViolentCrimesPerPop=1 (69.0/10.0)
+(PctIlleg >= 0.23) and (pctWInvInc <= 0.38) and (MedRentPctHousInc >= 0.52) and (PctEmplProfServ <= 0.31) and (PctEmplManu >= 0.36) => ViolentCrimesPerPop=1 (40.0/8.0)
+(PctIlleg >= 0.29) and (PctKids2Par <= 0.34) and (PctYoungKids2Par >= 0.1) and (agePct12t21 <= 0.61) => ViolentCrimesPerPop=1 (61.0/15.0)
+(PctIlleg >= 0.22) and (HousVacant >= 0.12) and (MedOwnCostPctIncNoMtg <= 0.28) => ViolentCrimesPerPop=1 (28.0/8.0)
+(PctKids2Par <= 0.53) and (PctVacantBoarded >= 0.28) and (racePctWhite <= 0.76) and (TotalPctDiv >= 0.7) => ViolentCrimesPerPop=1 (20.0/4.0)
+(PctYoungKids2Par <= 0.59) and (PctVacantBoarded >= 0.41) and (PctImmigRec8 <= 0.34) and (medIncome <= 0.19) and (state <= 40) => ViolentCrimesPerPop=1 (16.0/2.0)
+ => ViolentCrimesPerPop=0 (1660.0/97.0)
+
+Number of Rules : 8
+
+
+Time taken to build model: 8.09 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances        1738               87.1615 %
+Incorrectly Classified Instances       256               12.8385 %
+Kappa statistic                          0.5735
+Mean absolute error                      0.1757
+Root mean squared error                  0.325 
+Relative absolute error                 57.625  %
+Root relative squared error             83.2605 %
+Total Number of Instances             1994     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.925     0.358      0.918     0.925     0.921      0.788    0
+                 0.642     0.075      0.663     0.642     0.652      0.788    1
+Weighted Avg.    0.872     0.305      0.87      0.872     0.871      0.788
+
+=== Confusion Matrix ===
+
+    a    b   <-- classified as
+ 1498  122 |    a = 0
+  134  240 |    b = 1
+
